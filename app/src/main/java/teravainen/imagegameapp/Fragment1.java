@@ -79,6 +79,12 @@ public class Fragment1 extends android.support.v4.app.Fragment {
         return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateText();
+    }
+
     public void updateText(){
         scoreView = (TextView)view.findViewById(R.id.scoreView);
 
