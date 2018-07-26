@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editDatabaseActivity"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/lakebg">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/buttonHolder">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/addEntry"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mission Name"/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="text"
+                android:id="@+id/Mname"
+                android:hint="Tehtävän nimi"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="text"
+                android:id="@+id/Mdescription"
+                android:hint="Tehtävän kuvailu"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mission Difficulty"/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="text"
+                android:id="@+id/Mdifficulty"
+                android:hint="Tehtävän Vaikeus"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mission Points"/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:id="@+id/Mpoints"
+                android:hint="Tehtävän Pisteet"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add mission to DB"
+                android:id="@+id/submitEntryButton"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/deleteEntry"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Poista tietokannasta ID:llä: "/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:id="@+id/dID"
+                android:hint="ID"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Entry"
+                android:id="@+id/deleteEntryButton"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/editEntry"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editoi ID:tä: "/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:id="@+id/editID"
+                android:hint="ID"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nimi"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="text"
+                android:id="@+id/editName"
+                android:hint="Name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vaikeus"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="text"
+                android:id="@+id/editDifficulty"
+                android:hint="Difficulty"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pisteet"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:id="@+id/editScore"
+                android:hint="Points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="text"
+                android:id="@+id/editDescription"
+                android:hint="Tehtävän kuvaus"/>
+
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Entry"
+                android:id="@+id/editEntryButton"/>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showAddLayout"
+            android:text="Show Create"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showDeleteLayout"
+            android:text="Show Delete"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showEditLayout"
+            android:text="Show Edit"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/getMission"
+            android:text="Get a mission"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/myDataList"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Database"
+            android:id="@+id/showDatabase"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/myDatabaseView"/>
+
+
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>

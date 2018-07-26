@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lakebg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/frontImageView"
+                android:layout_width="142dp"
+                android:layout_height="118dp"
+                app:srcCompat="@drawable/applogo"
+                />
+            <TextView
+                android:id="@+id/scoreView"
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:text="@string/testMyVariable"
+                android:textSize="18sp"
+                android:textColor="#FF0000"
+                android:gravity="center" />
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/displayMission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mission_view_easy"
+                android:paddingLeft="5dp"
+                android:paddingRight="2dp"
+                android:textSize="16dp"
+                android:padding="5dp"
+                android:text="@string/mission_list_easy"
+                android:layout_marginBottom="5dp"/>
+
+
+            <Button
+                android:background="@drawable/button_custom"
+                android:id="@+id/cameraButton"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="@string/camera_button"
+                android:layout_marginTop="5dp"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"/>
+
+            <Button
+                android:id="@+id/debugButton"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:background="@drawable/button_custom"
+                android:text="@string/view_test_button"
+                android:textSize="24sp"
+                android:layout_marginTop="5dp"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:id="@+id/JsonTest"
+                android:text="JSON"
+                android:background="@drawable/button_custom"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"/>
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:id="@+id/startBottomTest"
+                android:background="@drawable/button_custom"
+                android:text="Navigation"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"/>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
+
+</android.support.constraint.ConstraintLayout>
+

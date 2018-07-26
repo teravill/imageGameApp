@@ -1,0 +1,86 @@
+/*{
+	"students": [{
+			"firstname": "John",
+			"lastname": "Doe",
+			"age": "25"
+		},
+		{
+			"firstname": "Mary",
+			"lastname": "White",
+			"age": "27"
+		},
+		{
+			"firstname": "Marcus",
+			"lastname": "Kritz",
+			"age": "33"
+		}
+	]
+}*/
+
+//Esimerkki minkälainen json tulee Vision Apilta
+{
+	"labelAnnotations":[
+		{
+			"mid": "/m/01bqvp",
+			"description": "sky",
+			"score": 0.91460264,
+			"topicality:": 0.91460264
+		},
+		{
+			"mid": "/m/06xbd",
+			"description": "solar energy",
+			"score": 0.8692917,
+			"topicality": 0.8692917
+		},
+		{
+			"mid": "/m/06hyd",
+			"description": "roof",
+			"score": 0.85628295,
+			"topicality": 0.85628295
+		},
+		{
+			"mid": "/m/02mm_",
+			"description": "energy",
+			"score": 0.8257109,
+			"topicality": 0.8257109
+		},
+		{
+			"mid": "/m/05t0ydv",
+			"description": "solar power",
+			"score": 0.7536378,
+			"topicality": 0.7536378
+		},
+		{
+			"mid": "/m/07c1v",
+			"description": "technology",
+			"score": 0.7263794,
+			"topicality": 0.7263794
+		},
+		{
+			"mid": "/m/0fnrbc",
+			"description": "solar panel",
+			"score": 0.71931386,
+			"topicality": 0.71931386
+		},
+		{
+			"mid": "/m/01l0mw",
+			"description": "home",
+			"score": 0.7089073,
+			"topicality": 0.7089073
+		},
+		{
+			"mid": "/m/03jm5",
+			"description": "house",
+			"score": 0.6759043,
+			"topicality": 0.6759043
+		},
+		{
+			"mid": "/m/023907r",
+			"description": "real estate",
+			"score": 0.6487531,
+			"topicality": 0.6487531
+		}
+	]
+
+}
+

@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Lahti Image Game</string>
+
+    <string name="mission_list_easy">
+        <b>Helppo tehtävä</b> - Kuvaa:
+        \n Puu <b>+25p</b>
+        \n Auto <b>+25p</b>
+        \n Järvi <b>+50p</b>
+        \n  <b>+50p</b>
+    </string>
+    <string name="mission_list_intermediate">
+        <b>Keskivaikea tehtävä</b> - Kuvaa:
+        \n Puisto <b>+50p</b>
+        \n Kauppa <b>+50p</b>
+        \n STOP-merkki <b>+100p</b>
+        \n  <b>+100p</b>
+
+    </string>
+    <string name="mission_list_hard">
+        <b>Vaikea tehtävä</b> - Kuvaa:
+        \n Radiomasto <b>+100p</b>
+        \n Patsas <b>+100p</b>
+        \n Lintu <b>+150p</b>
+    </string>
+
+    <!--Esimerkki uudesta tavasta tehdä textview:n teksti -->
+
+    <string name="testMyVariable">
+        Placeholder Text
+    </string>
+
+
+    <string name="camera_button">Camera</string>
+    <string name="view_test_button">Debug</string>
+
+    <string name="mission_with_points"></string>
+    <string name="title_activity_bottom_navigation">bottomNavigation</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Debug</string>
+    <string name="title_notifications">JSON</string>
+    <string name="title_navigations">Navigation</string>
+
+    <string name="about_content">
+        This app has has been developed as part of the CitiCap project
+        \nDeveloper Ville Teräväinen
+        \nApp Version 0.3.4
+
+    </string>
+
+</resources>
