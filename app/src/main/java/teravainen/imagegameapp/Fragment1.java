@@ -1,6 +1,7 @@
 package teravainen.imagegameapp;
 
 import android.app.Fragment;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
     private TextView scoreView;
     private TextView missionView;
     private Button rerollButton;
+    private Button completeMissionButton;
 
     public static AppDatabase appDatabase;
     private List<tehtava> itemList = new ArrayList<tehtava>();
@@ -36,6 +38,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
         view = inflater.inflate(R.layout.fragment_one, container, false);
         cameraButton = (Button)view.findViewById(R.id.cameraButton);
         rerollButton = (Button)view.findViewById(R.id.rerollButton);
+        completeMissionButton = (Button)view.findViewById(R.id.completeMissionButton);
         //scoreView = (TextView)view.findViewById(R.id.scoreView);
         //scoreView.setText("Updated Text!");
 
@@ -54,12 +57,24 @@ public class Fragment1 extends android.support.v4.app.Fragment {
             public void onClick(View view) {
                 //tee sama funktio kuin mainActivityssa
                 updateText();
+                getMission();
+            }
+        });
+
+        completeMissionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //suorita tehtävä
+                completeMission();
             }
         });
 
         //Päivitetään score sharefpreferenseistä
         updateText();
-        loadMission(view);
+        loadMission();
+
+        //initialize database
+        appDatabase = Room.databaseBuilder(getContext(),AppDatabase.class, "missionDB").allowMainThreadQueries().build();
 
         return view;
     }
@@ -76,11 +91,11 @@ public class Fragment1 extends android.support.v4.app.Fragment {
     }
 
 
-    public void loadMission(View v){
+    public void loadMission(){
         //Haetaan tehtävät käyttäjälle
         SharedPreferences mySharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        missionView = (TextView)v.findViewById(R.id.displayMission);
+        missionView = (TextView)view.findViewById(R.id.displayMission);
 
         String name = mySharedPref.getString("Mname","");
         String difficulty = mySharedPref.getString("Mdifficulty","");
@@ -157,6 +172,32 @@ public class Fragment1 extends android.support.v4.app.Fragment {
             tv.setText(info);
         }
 
+    }
+
+    public void completeMission(){
+        // get stuff from sharedpref
+        SharedPreferences mySharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        int points = mySharedPref.getInt("Mpoints", 0);
+        boolean progress = mySharedPref.getBoolean("Mprogress", false);
+
+        int score = mySharedPref.getInt("counter", 0);
+
+        SharedPreferences.Editor editor = mySharedPref.edit();
+        editor.putBoolean("Mprogress", true);
+
+        //laitetaan pisteet global variable scoreen
+        //annetaan käyttäjälle pisteet
+        editor.putInt("counter", (score + points));
+        editor.putBoolean("Mprogress", true);
+        editor.apply();
+
+        //päivitetään current missionin ulkonäky
+        //showThePref();
+
+        Toast.makeText(getActivity(), "Mission completed, awarded " + points + " points", Toast.LENGTH_LONG).show();
+        updateText();
+        loadMission();
     }
 
     public class tehtava{
