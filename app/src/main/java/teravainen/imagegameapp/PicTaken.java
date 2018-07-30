@@ -66,6 +66,7 @@ public class PicTaken extends AppCompatActivity {
 
     public static Context myContext;
 
+    public String truePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +93,18 @@ public class PicTaken extends AppCompatActivity {
         ImageView myImage = (ImageView) findViewById(R.id.myImagePreview);
         myImage.setImageBitmap(BitmapFactory.decodeFile(pathValue));
 
+        //assign truepath to to resized and compressed image
+        truePath = resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
+
 
         final Button analysisbutton = findViewById(R.id.analyzeButton);
         final Button compressButton = findViewById(R.id.compressButton);
 
+
         compressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
+                 truePath = resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
             }
         });
 
@@ -113,7 +118,8 @@ public class PicTaken extends AppCompatActivity {
                 TextView debugView =  (TextView)findViewById(R.id.debugData);
                 debugView.setText("Loading... This may take a little while...");
 
-                detectLabels2(pathValue);
+                detectLabels2(truePath);
+                //detectLabels2(pathValue);
             }
         });
 
@@ -298,7 +304,8 @@ public class PicTaken extends AppCompatActivity {
 
 
     public static String resizeAndCompressImageBeforeSend(Context context, String filePath, String fileName){
-        final int MAX_IMAGE_SIZE = 700 * 1024; //max final file size in kilobytes
+        //play around with the first value to reduce filesize without compromising the number of labels found
+        final int MAX_IMAGE_SIZE = 200 * 1024; //max final file size in kilobytes
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -385,7 +392,7 @@ public class PicTaken extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     try{
-                        int compression_factor = 10; // represents 10% compression, 0-100, the smaller number, the smaller image. 100 is 100%
+                        int compression_factor = 30; // represents 10% compression, 0-100, the smaller number, the smaller image. 100 is 100%
                         bitmap.compress(Bitmap.CompressFormat.JPEG, compression_factor, baos);
 
                         Log.e("compression", "COMPRESSION COMPLETE");
