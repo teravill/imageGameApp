@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/lakebg">
+    android:background="@raw/lakebg">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,50 +19,6 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp">
 
-
-            <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:id="@+id/GeneratedMissionGrid"
-                android:animateLayoutChanges="true">
-
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/mission1"
-                    android:visibility="gone"
-                    android:background="@drawable/mission_view_easy"
-                    android:padding="5dp"
-                    />
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/mission2"
-                    android:visibility="gone"
-                    android:background="@drawable/mission_view_easy"
-                    android:padding="5dp"/>
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/mission3"
-                    android:visibility="gone"
-                    android:background="@drawable/mission_view_easy"
-                    android:padding="5dp"/>
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/mission4"
-                    android:visibility="gone"
-                    android:background="@drawable/mission_view_easy"
-                    android:padding="5dp"/>
-            </GridLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/DatabaseData"
-                android:visibility="gone"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,31 +29,29 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/resetScore"
-                android:text="Reset score"/>
+                android:id="@+id/resetMissionButton"
+                android:text="Reset Mission"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/resetScoreButton"
+                android:text="Reset Score"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/showDatabase"
                 android:text="Show Database"/>
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ShowSharedPref"
-                android:text="Show Current Mission"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/completeMissionButton"
-                android:text="Complete Mission"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textFromPref"/>
+                android:id="@+id/DatabaseData"
+                android:visibility="gone"
+                android:background="#90FFFFFF"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"/>
 
 
         </LinearLayout>

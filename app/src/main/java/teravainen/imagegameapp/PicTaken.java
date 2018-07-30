@@ -3,6 +3,7 @@ package teravainen.imagegameapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.LabeledIntent;
 import android.graphics.Point;
 import android.media.ImageReader;
@@ -71,9 +72,10 @@ public class PicTaken extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pic_taken);
 
+        //Hot to make screen orientation in portrait mode always, needs to be included in all activities where we want it to be locked to portrait mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         TextView debugView =  (TextView)findViewById(R.id.debugData);
-
 
         //Otetaan vastaan ThirdActivitysta lähetetty String data, jossa on PATH otettuun kuvaan
         Intent intent = getIntent();
@@ -92,6 +94,14 @@ public class PicTaken extends AppCompatActivity {
 
 
         final Button analysisbutton = findViewById(R.id.analyzeButton);
+        final Button compressButton = findViewById(R.id.compressButton);
+
+        compressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
+            }
+        });
 
         analysisbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +112,6 @@ public class PicTaken extends AppCompatActivity {
 
                 TextView debugView =  (TextView)findViewById(R.id.debugData);
                 debugView.setText("Loading... This may take a little while...");
-
 
                 detectLabels2(pathValue);
             }
@@ -287,6 +296,74 @@ public class PicTaken extends AppCompatActivity {
 
     }
 
+
+    public static String resizeAndCompressImageBeforeSend(Context context, String filePath, String fileName){
+        final int MAX_IMAGE_SIZE = 700 * 1024; //max final file size in kilobytes
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        //calculate inSampleSize(First we are going to resize the image to 800x800in order to not have a big but very low quality image.
+        //resizing the image will already reduce the file size, but after resizing we will check the file size and start to compress image
+        options.inSampleSize = calculateInSampleSize(options, 800, 800);
+
+        //decode bitmap with inSamplesize set
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        Bitmap bmpPic = BitmapFactory.decodeFile(filePath, options);
+
+        int compressQuality = 100;
+        int streamLength;
+        do{
+            ByteArrayOutputStream bmpStream = new ByteArrayOutputStream();
+            Log.d("compressBitmap", "Quality: " + compressQuality);
+            bmpPic.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream);
+            byte[] bmpPicByteArray = bmpStream.toByteArray();
+            streamLength = bmpPicByteArray.length;
+            compressQuality -= 5;
+            Log.d("compressBitmap", "Size: " + streamLength/1024+ " kb");
+        }while (streamLength >= MAX_IMAGE_SIZE);
+
+        try{
+            //save the resized and compressed file to disk cache
+            Log.d("compressBitmap", "cacheDir: " + context.getCacheDir());
+            FileOutputStream bmpFile = new FileOutputStream(context.getCacheDir() + fileName);
+            bmpPic.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpFile);
+            bmpFile.flush();
+            bmpFile.close();
+        }catch (Exception e){
+            Log.e("compressBitmap", "Error on saving file");
+        }
+        //return the path of resized and compressed file
+        return context.getCacheDir()+fileName;
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){
+        String debugTag = "MemoryInformation";
+
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        Log.d(debugTag, "image height: "+ height + " ---image width: " + width);
+        int inSampleSize = 1;
+
+        if(height > reqHeight || width > reqWidth){
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            //calculate the larges inSampleSize value that is a power of 2 and keeps both
+            //height and width larger than the requested height and width
+            while((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth){
+                inSampleSize *= 2;
+            }
+        }
+        Log.d(debugTag, "inSampleSize: " + inSampleSize);
+        return inSampleSize;
+    }
+
+
+
     //Muuten sama kuin detectLabels funktio, mutta tässä kompressataan kuva ennen lähettämistä jotta tiedostonkoko pysyy pienempänä
     // -> Prosessissa kestää huomattavasti vähemmän aikaa
     public  void detectLabels2(final String imagePath){
@@ -301,13 +378,17 @@ public class PicTaken extends AppCompatActivity {
                     //InputStream inputStream = getResources().openRawResource(R.raw.radiomastot);
 
                     //laitetaan otetun kuvan path FileInputstreamiin ja lähetetään se vision API:lle
+                   // InputStream inputStream = getResources().openRawResource(R.raw.radiomastot);
+                    //Ylempi kuva yhä lataa nopeasti, otettu kuva ei
                     FileInputStream inputStream = new FileInputStream(imagePath);
 
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     try{
-                        int compression_factor = 10; // represents 1% compression, 0-100, the smaller number, the smaller image. 100 is 100%
+                        int compression_factor = 10; // represents 10% compression, 0-100, the smaller number, the smaller image. 100 is 100%
                         bitmap.compress(Bitmap.CompressFormat.JPEG, compression_factor, baos);
+
+                        Log.e("compression", "COMPRESSION COMPLETE");
 
                         byte[] photoData = baos.toByteArray();
 
@@ -324,9 +405,13 @@ public class PicTaken extends AppCompatActivity {
                         BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
                         batchRequest.setRequests(Arrays.asList(request));
 
+                        Log.e("vision", "Beginning Vision");
+
                         //call annotate() method offered by Google Visions API
                         BatchAnnotateImagesResponse batchResponse =
                                 vision.images().annotate(batchRequest).execute();
+
+                        Log.e("vision", "Vision Complete");
 
                         //Response
                         List<EntityAnnotation> myResponse = batchResponse.getResponses().get(0).getLabelAnnotations();

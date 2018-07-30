@@ -1,8 +1,11 @@
 package teravainen.imagegameapp;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.arch.persistence.room.Room;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +19,12 @@ import java.util.List;
 public class Fragment2 extends android.support.v4.app.Fragment  {
 
     private Button editDBButton;
-    private Button resetButton;
+    private Button resetMissionButton;
+    private Button resetScoreButton;
     private Button showDBButton;
-    private TextView databaseData;
 
     public static AppDatabase appDatabase;
+
 
     @Nullable
     @Override
@@ -28,8 +32,10 @@ public class Fragment2 extends android.support.v4.app.Fragment  {
 
         View view = inflater.inflate(R.layout.fragment_two, container, false);
         editDBButton = (Button)view.findViewById(R.id.OpenDBEdit);
-        resetButton = (Button)view.findViewById(R.id.resetScore);
+        resetMissionButton = (Button)view.findViewById(R.id.resetMissionButton);
+        resetScoreButton = (Button)view.findViewById(R.id.resetScoreButton);
         showDBButton = (Button)view.findViewById(R.id.showDatabase);
+
 
 
         editDBButton.setOnClickListener(new View.OnClickListener() {
@@ -40,10 +46,18 @@ public class Fragment2 extends android.support.v4.app.Fragment  {
             }
         });
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
+        resetMissionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UtilityFunctions.resetScore(getActivity());
+            }
+        });
+
+        resetScoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetScore();
+
             }
         });
 
@@ -54,9 +68,26 @@ public class Fragment2 extends android.support.v4.app.Fragment  {
             }
         });
 
+
         appDatabase = Room.databaseBuilder(getActivity(),AppDatabase.class, "missionDB").allowMainThreadQueries().build();
 
         return view;
+    }
+
+    public void resetScore(){
+        //Editoidaan sharedpreferenciin tallennettua counter integeriä, jolla pidetään kirjaa käyttäjän pisteistä.
+        // Tällä voidaan palauttaa käyttäjän pisteet takaisin nollaan
+        SharedPreferences mySharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int score = 0;
+
+        //Laitetaan muuttuja score editorin kautta counterin uudeksi arvoksi
+        SharedPreferences.Editor editor = mySharedPref.edit();
+        editor.putInt("counter", score);
+        editor.apply();
+
+        Toast.makeText(getContext(), "The score has been reset", Toast.LENGTH_LONG).show();
+
+        //Tässä pitäisi päivittää Fragment1 tulostaulu
     }
 
     public void showDataBase(){
@@ -73,7 +104,7 @@ public class Fragment2 extends android.support.v4.app.Fragment  {
             int pong = mis.getPoints();
             String desc = mis.getDescription();
 
-            info = info+"\n\n"+ "Id : " + id + "\n" + "Name : " + name + "\n" + "Difficulty : " + diffic + "\n" + "Points : " +  pong + "\n" + "Description: " + desc;
+            info = info+"Id : " + id + "\n" + "Name : " + name + "\n" + "Difficulty : " + diffic + "\n" + "Points : " +  pong + "\n" + "Description: " + desc + "\n\n";
         }
 
         TextView databaseData = (TextView)getView().findViewById(R.id.DatabaseData);

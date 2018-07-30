@@ -35,6 +35,11 @@
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Compress"
+                android:id="@+id/compressButton"/>
+            <Button
                 android:id="@+id/analyzeButton"
                 android:layout_width="200dp"
                 android:layout_height="50dp"

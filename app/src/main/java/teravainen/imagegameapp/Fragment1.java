@@ -85,6 +85,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
         updateText();
     }
 
+
     public void updateText(){
         scoreView = (TextView)view.findViewById(R.id.scoreView);
 

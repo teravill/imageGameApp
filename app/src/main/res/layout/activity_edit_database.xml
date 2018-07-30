@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".editDatabaseActivity"
     android:animateLayoutChanges="true"
-    android:background="@drawable/lakebg">
+    android:background="@raw/lakebg">
 
 
 

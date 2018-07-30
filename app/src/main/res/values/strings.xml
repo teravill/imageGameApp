@@ -37,8 +37,8 @@
     <string name="title_activity_bottom_navigation">bottomNavigation</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Debug</string>
-    <string name="title_notifications">JSON</string>
-    <string name="title_navigations">Navigation</string>
+    <string name="title_notifications">Database</string>
+    <string name="title_navigations">About</string>
 
     <string name="about_content">
         This app has has been developed as part of the CitiCap project
