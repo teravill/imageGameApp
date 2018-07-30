@@ -24,24 +24,35 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/OpenDBEdit"
                 android:text="Open DB edit View"
-                android:background="#8B0000"
-                android:padding="5dp"/>
+                android:background="@drawable/button_db_custom"
+                android:textColor="#FFFFFF"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/resetMissionButton"
-                android:text="Reset Mission"/>
+                android:text="Reset Mission"
+                android:background="@drawable/button_db_custom"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="5dp"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/resetScoreButton"
-                android:text="Reset Score"/>
+                android:text="Reset Score"
+                android:background="@drawable/button_db_custom"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="5dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/showDatabase"
-                android:text="Show Database"/>
+                android:text="Show Database"
+                android:background="@drawable/button_db_custom"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="5dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

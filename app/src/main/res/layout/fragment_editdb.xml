@@ -190,22 +190,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showAddLayout"
-            android:text="Show Create"/>
+            android:text="Show Create"
+            android:background="@drawable/button_db_custom"
+            android:layout_marginTop="5dp"
+            android:textColor="#FFFFFF"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showDeleteLayout"
-            android:text="Show Delete"/>
+            android:text="Show Delete"
+            android:background="@drawable/button_db_custom"
+            android:layout_marginTop="5dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showEditLayout"
-            android:text="Show Edit"/>
+            android:text="Show Edit"
+            android:background="@drawable/button_db_custom"
+            android:layout_marginTop="5dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/getMission"
-            android:text="Get a mission"/>
+            android:text="Get a mission"
+            android:background="@drawable/button_db_custom"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -217,7 +226,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Show Database"
-            android:id="@+id/showDatabase"/>
+            android:id="@+id/showDatabase"
+            android:background="@drawable/button_db_custom"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

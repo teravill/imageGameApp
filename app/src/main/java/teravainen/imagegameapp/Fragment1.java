@@ -188,21 +188,25 @@ public class Fragment1 extends android.support.v4.app.Fragment {
         int points = mySharedPref.getInt("Mpoints", 0);
         boolean progress = mySharedPref.getBoolean("Mprogress", false);
 
-        int score = mySharedPref.getInt("counter", 0);
 
-        SharedPreferences.Editor editor = mySharedPref.edit();
-        editor.putBoolean("Mprogress", true);
+        if(progress == true){
+            Toast.makeText(getActivity(), "Mission already completed, get a new mission!", Toast.LENGTH_SHORT).show();
+        }
+        else if(progress == false){
+            int score = mySharedPref.getInt("counter", 0);
 
-        //laitetaan pisteet global variable scoreen
-        //annetaan käyttäjälle pisteet
-        editor.putInt("counter", (score + points));
-        editor.putBoolean("Mprogress", true);
-        editor.apply();
+            SharedPreferences.Editor editor = mySharedPref.edit();
+            editor.putBoolean("Mprogress", true);
 
-        //päivitetään current missionin ulkonäky
-        //showThePref();
+            //laitetaan pisteet global variable scoreen
+            //annetaan käyttäjälle pisteet
+            editor.putInt("counter", (score + points));
+            editor.putBoolean("Mprogress", true);
+            editor.apply();
 
-        Toast.makeText(getActivity(), "Mission completed, awarded " + points + " points", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Mission completed, awarded " + points + " points", Toast.LENGTH_LONG).show();
+        }
+
         updateText();
         loadMission();
     }

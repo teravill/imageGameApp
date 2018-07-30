@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:id="@+id/buttonHolder">
+        android:id="@+id/buttonHolder"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -187,7 +188,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/showCreateButton"
             android:text="Show Create"
-            android:background="@drawable/button_custom"
+            android:background="@drawable/button_db_custom"
             android:textColor="#FFFFFF"
             android:layout_marginTop="5dp"/>
         <Button
@@ -195,7 +196,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/showDeleteButton"
             android:text="Show Delete"
-            android:background="@drawable/button_custom"
+            android:background="@drawable/button_db_custom"
             android:textColor="#FFFFFF"
             android:layout_marginTop="5dp"/>
         <Button
@@ -203,7 +204,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/showEditButton"
             android:text="Show Edit"
-            android:background="@drawable/button_custom"
+            android:background="@drawable/button_db_custom"
             android:textColor="#FFFFFF"
             android:layout_marginTop="5dp"/>
 

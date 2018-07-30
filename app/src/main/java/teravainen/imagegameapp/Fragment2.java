@@ -50,6 +50,7 @@ public class Fragment2 extends android.support.v4.app.Fragment  {
             @Override
             public void onClick(View view) {
                 UtilityFunctions.resetScore(getActivity());
+                Toast.makeText(getActivity(), "Mission has been reset", Toast.LENGTH_SHORT).show();
             }
         });
 
