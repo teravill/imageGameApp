@@ -14,20 +14,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/missionLayout"
             android:gravity="center"
             android:orientation="vertical"
             android:layout_marginTop="20dp">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/OpenDBEdit"
-                android:text="Open DB edit View"
-                android:background="@drawable/button_db_custom"
-                android:textColor="#FFFFFF"
-                android:padding="5dp"
-                android:layout_marginTop="5dp"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

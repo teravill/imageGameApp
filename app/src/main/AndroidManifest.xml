@@ -26,11 +26,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity"/>
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".ThirdActivity" />
+        <activity android:name=".TakePictureActivity" />
         <activity android:name=".PicTaken" />
-        <activity android:name=".editDatabaseActivity" />
-        <activity android:name=".JsonActivity" />
         <activity
             android:name=".bottomNavigation"
             android:label="@string/title_activity_bottom_navigation">

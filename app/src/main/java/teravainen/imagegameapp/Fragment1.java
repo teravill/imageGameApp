@@ -1,6 +1,5 @@
 package teravainen.imagegameapp;
 
-import android.app.Fragment;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,7 +46,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 //fragmentissa joutuu käyttämään getActivity()
-                Intent intent = new Intent(getActivity(), ThirdActivity.class);
+                Intent intent = new Intent(getActivity(), TakePictureActivity.class);
                 startActivity(intent);
             }
         });

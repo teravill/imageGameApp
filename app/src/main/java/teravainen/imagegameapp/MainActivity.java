@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -45,17 +42,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final Button button = findViewById(R.id.debugButton);
-        //onclick listener for button
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //this is executed when the user presses button with the id.button
-                //runs the function to open the second activity
-                launchDebug();
-            }
-        });
-
 
         final Button camerabutton = findViewById(R.id.cameraButton);
         //onclick listener for camerabutton
@@ -67,13 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button jsonButton = findViewById(R.id.JsonTest);
-        jsonButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchJson();
-            }
-        });
 
         final Button navTestButton = findViewById(R.id.startBottomTest);
         navTestButton.setOnClickListener(new View.OnClickListener() {
@@ -99,22 +78,12 @@ public class MainActivity extends AppCompatActivity {
         loadMission();
     }
 
-    //opens the second activity
-    private void launchDebug(){
-        Intent intent = new Intent(this, SecondActivity.class);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
 
     private void launchProtoPicture(){
-        Intent intent = new Intent(this, ThirdActivity.class);
+        Intent intent = new Intent(this, TakePictureActivity.class);
         startActivity(intent);
     }
 
-    private void launchJson(){
-        Intent intent = new Intent(this, JsonActivity.class);
-        startActivity(intent);
-    }
 
     private void launchNavTest(){
         Intent intent = new Intent(this, bottomNavigation.class);

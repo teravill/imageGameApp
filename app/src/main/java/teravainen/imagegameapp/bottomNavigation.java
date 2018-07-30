@@ -78,7 +78,7 @@ public class bottomNavigation extends AppCompatActivity{
     }
 
     public void startAbout(){
-        setViewPager(4);
+        setViewPager(3);
     }
 
     private void setupViewPager(ViewPager viewPager){
@@ -86,7 +86,6 @@ public class bottomNavigation extends AppCompatActivity{
         adapter.addFragment(new Fragment1(), "Fragment 1");
         adapter.addFragment(new Fragment2(), "Fragment 2");
         adapter.addFragment(new Fragment3(), "Fragment 3");
-        adapter.addFragment(new FragmentEditDB(), "Fragment 4");
         adapter.addFragment(new FragmentAbout(), "Fragment about");
         viewPager.setAdapter(adapter);
     }

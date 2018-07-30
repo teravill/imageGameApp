@@ -18,7 +18,6 @@ import java.util.List;
 
 public class Fragment2 extends android.support.v4.app.Fragment  {
 
-    private Button editDBButton;
     private Button resetMissionButton;
     private Button resetScoreButton;
     private Button showDBButton;
@@ -31,20 +30,10 @@ public class Fragment2 extends android.support.v4.app.Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_two, container, false);
-        editDBButton = (Button)view.findViewById(R.id.OpenDBEdit);
         resetMissionButton = (Button)view.findViewById(R.id.resetMissionButton);
         resetScoreButton = (Button)view.findViewById(R.id.resetScoreButton);
         showDBButton = (Button)view.findViewById(R.id.showDatabase);
 
-
-
-        editDBButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //avaa uusi fragmentti fragment_editdb, käyttämällä bottomNavigationista löytyvää setViewPager funktiota
-                ((bottomNavigation)getActivity()).setViewPager(3);
-            }
-        });
 
         resetMissionButton.setOnClickListener(new View.OnClickListener() {
             @Override

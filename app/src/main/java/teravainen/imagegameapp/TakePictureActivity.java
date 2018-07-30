@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
-import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -39,15 +38,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 
-public class ThirdActivity extends AppCompatActivity {
+public class TakePictureActivity extends AppCompatActivity {
 
     private TextureView textureView;
     private Button takePictureButton;
@@ -69,12 +66,10 @@ public class ThirdActivity extends AppCompatActivity {
     private File file;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
 
-
-
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
 
-    private static final String TAG = "ThirdActivity";
+    private static final String TAG = "TakePictureActivity";
 
 
 
@@ -136,7 +131,7 @@ public class ThirdActivity extends AppCompatActivity {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result){
             super.onCaptureCompleted(session, request, result);
-            Toast.makeText(ThirdActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+            Toast.makeText(TakePictureActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
             createCameraPreview();
         }
     };
@@ -231,14 +226,14 @@ public class ThirdActivity extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result){
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(ThirdActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TakePictureActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
 
                     //Avataan uusi activity johon lähetetään tallennetun kuvan PATH
                     //Suljetaan tämä aktiviteetti, jotta kamera ei aukea jos käyttäjä palaa takaisinpäin
 
-                    Intent picIntent = new Intent(ThirdActivity.this, PicTaken.class);
+                    Intent picIntent = new Intent(TakePictureActivity.this, PicTaken.class);
                     picIntent.putExtra("pathToFile",myPath);
-                    ThirdActivity.this.startActivity(picIntent);
+                    TakePictureActivity.this.startActivity(picIntent);
                     finish();
 
 
@@ -283,7 +278,7 @@ public class ThirdActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    Toast.makeText(ThirdActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TakePictureActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
                     }
                 },null);
             } catch(CameraAccessException e){
@@ -305,7 +300,7 @@ public class ThirdActivity extends AppCompatActivity {
             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             {
-                ActivityCompat.requestPermissions(ThirdActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+                ActivityCompat.requestPermissions(TakePictureActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
                 return;
             }
             manager.openCamera(cameraId, stateCallback, null);
@@ -344,7 +339,7 @@ public class ThirdActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CAMERA_PERMISSION){
             if(grantResults[0] == PackageManager.PERMISSION_DENIED){
                 //close app
-                Toast.makeText(ThirdActivity.this, "Sorry, can't use this app without granting permission", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TakePictureActivity.this, "Sorry, can't use this app without granting permission", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

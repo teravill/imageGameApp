@@ -116,7 +116,7 @@ public class Fragment3 extends android.support.v4.app.Fragment {
         else{
             int entryPoints = Integer.parseInt(createScore.getText().toString());
 
-            //sama kaava kuin SecondActivity.java:ssa, luodaan uusi Mission objekti, käytetään setName, setDifficulty ja setPoints jolla asetetaan tietokanta entryn tiedot
+            //luodaan uusi Mission objekti, käytetään setName, setDifficulty ja setPoints jolla asetetaan tietokanta entryn tiedot
             Mission mission = new Mission();
 
             mission.setName(entryName);
