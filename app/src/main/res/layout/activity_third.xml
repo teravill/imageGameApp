@@ -8,16 +8,18 @@
         android:id="@+id/textureView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/buttonCapture"/>
+        android:layout_above="@+id/buttonCapture"
+        />
 
     <Button
         android:id="@+id/buttonCapture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_custom"
+        android:height="50dp"
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="12dp"
         android:text="CAPTURE" />
 
 </RelativeLayout>

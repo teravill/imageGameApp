@@ -10,20 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/picPreview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="TextView"
-            android:layout_marginBottom="0dp"
-            android:textSize="18sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/picPreview"
             android:orientation="vertical"
             android:gravity="center">
 
@@ -35,15 +24,11 @@
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <Button
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:text="Compress"
-                android:id="@+id/compressButton"/>
-            <Button
                 android:id="@+id/analyzeButton"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:text="Analysoi Kuva!" />
+                android:text="Analysoi Kuva!"
+                android:background="@drawable/button_custom"/>
 
             <ProgressBar
                 android:layout_width="wrap_content"

@@ -25,13 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"/>
         <activity android:name=".SecondActivity" />
         <activity android:name=".ThirdActivity" />
         <activity android:name=".PicTaken" />
@@ -39,7 +33,13 @@
         <activity android:name=".JsonActivity" />
         <activity
             android:name=".bottomNavigation"
-            android:label="@string/title_activity_bottom_navigation"></activity>
+            android:label="@string/title_activity_bottom_navigation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -82,11 +82,6 @@ public class PicTaken extends AppCompatActivity {
         Intent intent = getIntent();
         final String pathValue = intent.getStringExtra("pathToFile");
 
-        //Näytetään PATH stringi debuggauksen avuksi
-        TextView myPicPreview = (TextView) findViewById(R.id.picPreview);
-        myPicPreview.setText(pathValue);
-
-
         //Avataan imageviewiin kuva käyttämällä saatua PATH valueta
         Bitmap bitmap = BitmapFactory.decodeFile(pathValue);
 
@@ -98,15 +93,7 @@ public class PicTaken extends AppCompatActivity {
 
 
         final Button analysisbutton = findViewById(R.id.analyzeButton);
-        final Button compressButton = findViewById(R.id.compressButton);
 
-
-        compressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                 truePath = resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
-            }
-        });
 
         analysisbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,7 +292,7 @@ public class PicTaken extends AppCompatActivity {
 
     public static String resizeAndCompressImageBeforeSend(Context context, String filePath, String fileName){
         //play around with the first value to reduce filesize without compromising the number of labels found
-        final int MAX_IMAGE_SIZE = 200 * 1024; //max final file size in kilobytes
+        final int MAX_IMAGE_SIZE = 600 * 1024; //max final file size in kilobytes
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
