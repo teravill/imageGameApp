@@ -24,11 +24,27 @@
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <Button
+                android:id="@+id/compressButton"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Pienennä Kuva!"
+                android:background="@drawable/button_custom"
+                android:layout_marginBottom="5dp"/>
+
+            <Button
                 android:id="@+id/analyzeButton"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:text="Analysoi Kuva!"
                 android:background="@drawable/button_custom"/>
+
+            <Button
+                android:id="@+id/TESTanalyzeButton"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="TEST ANALYSIS!"
+                android:background="@drawable/button_custom"/>
+
 
             <ProgressBar
                 android:layout_width="wrap_content"

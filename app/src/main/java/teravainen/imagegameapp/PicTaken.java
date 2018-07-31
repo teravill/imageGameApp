@@ -8,6 +8,7 @@ import android.content.pm.LabeledIntent;
 import android.graphics.Point;
 import android.media.ImageReader;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,14 +41,17 @@ import com.google.api.services.vision.v1.model.Image;
 
 //import org.apache.commons.codec.binary.Base64;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -61,12 +65,13 @@ public class PicTaken extends AppCompatActivity {
 
     private Vision vision;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = bottomNavigation.class.getSimpleName();
     private static final int MAX_LABEL_RESULTS = 10;
 
     public static Context myContext;
 
     public String truePath;
+    public String testPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,22 @@ public class PicTaken extends AppCompatActivity {
         truePath = resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
 
 
+        //Images opened as files from their parthValue
+        final File originalImage = new File(pathValue);
+        final File copyImage = new File(Environment.getExternalStorageDirectory()+"/picCopy.jpg");
+
+
         final Button analysisbutton = findViewById(R.id.analyzeButton);
+        final Button compressButton = findViewById(R.id.compressButton);
+        final Button TESTanalysisButton = findViewById(R.id.TESTanalyzeButton);
+
+        try{
+            copyFileUsingApacheCommonsIO(originalImage,copyImage);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        testPath = Environment.getExternalStorageDirectory()+"/test.jpg";
 
 
         analysisbutton.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +130,30 @@ public class PicTaken extends AppCompatActivity {
             }
         });
 
+        compressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //do the compressing
+               // resizeImage(pathValue);
+                //resizeAndSaveImage(pathValue);
+
+                rescaleImage(copyImage);
+            }
+        });
+
+        TESTanalysisButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Näytä loading animaatio ja kerro käyttäjälle että kuvaa analysoidaan
+                ProgressBar progBar = (ProgressBar)findViewById(R.id.myProgressBar);
+                progBar.setVisibility(View.VISIBLE);
+
+                TextView debugView =  (TextView)findViewById(R.id.debugData);
+                debugView.setText("Loading... This may take a little while...");
+                detectLabels(testPath);
+            }
+        });
+
 
         Vision.Builder visionBuilder = new Vision.Builder(
                 new NetHttpTransport(),
@@ -123,6 +167,84 @@ public class PicTaken extends AppCompatActivity {
 
         vision = visionBuilder.build();
 
+    }
+
+    //This copies a file to the destination
+    //takes File type parameters, first the thing being copied and second where with what name
+    private static void copyFileUsingApacheCommonsIO(File source, File dest)throws
+            IOException{
+        FileUtils.copyFile(source, dest);
+    }
+
+     public void rescaleImage(File targetFile){
+
+        Bitmap b = BitmapFactory.decodeFile(targetFile.getAbsolutePath());
+
+        int oriWidth = b.getWidth();
+        int oriHeight = b.getHeight();
+
+        final int destWidth = 2000; //or the width you need
+
+         if(oriWidth > oriHeight){
+             //picture is wider than we want it, calculate it's target height
+             int destheight = oriHeight/(oriWidth / destWidth);
+             //create a scaled bitmap so it reduces the image, not just trim it
+             Bitmap b2 = Bitmap.createScaledBitmap(b, destWidth, destheight, false);
+             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+             //compress to the format you want, jpeg, png...
+             //70 is the 0-100 quality percantage
+             b2.compress(Bitmap.CompressFormat.JPEG, 90 , outStream);
+             //save the file, until we use it
+             File f = new File(Environment.getExternalStorageDirectory()
+                    + File.separator + "test.jpg");
+             try{
+                 f.createNewFile();
+                 //write the bytes in file
+                 FileOutputStream fo = new FileOutputStream(f);
+                 fo.write(outStream.toByteArray());
+                 //close the FileOutput
+                 fo.close();
+             }catch (IOException e){
+                 e.printStackTrace();
+             }
+         }
+    }
+
+
+
+
+    public void resizeAndSaveImage(String pathValue){
+        Bitmap bitmapOrg = BitmapFactory.decodeFile(pathValue);
+
+        try {
+            FileOutputStream out = new FileOutputStream("new_bitmap.jpg");
+            bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("saveBitmap", e.getMessage());
+        }
+    }
+
+    private void resizeImage(String pathValue){
+        //ottaa pathvaluen, resizee imagen ja tallentaa sen samaan kansioon eri nimellä
+
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        Bitmap b = BitmapFactory.decodeFile(pathValue);
+        Bitmap out = Bitmap.createScaledBitmap(b, 300, 300, false );
+
+        File file = new File(dir, "resize.jpg");
+        FileOutputStream fOut;
+        try{
+            fOut = new FileOutputStream(file);
+            out.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+            b.recycle();
+            out.recycle();
+            Log.e("resize", "Resize Done");
+        }catch (Exception e){
+            Log.e("resize error", "Couldn't resize!");
+        }
     }
 
     //This is a sample that uses FACE_DETECTION on the picture
@@ -290,9 +412,10 @@ public class PicTaken extends AppCompatActivity {
     }
 
 
+
     public static String resizeAndCompressImageBeforeSend(Context context, String filePath, String fileName){
         //play around with the first value to reduce filesize without compromising the number of labels found
-        final int MAX_IMAGE_SIZE = 600 * 1024; //max final file size in kilobytes
+        final int MAX_IMAGE_SIZE = 500 * 1024; //max final file size in kilobytes
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
