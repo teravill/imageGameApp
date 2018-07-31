@@ -106,12 +106,15 @@ public class PicTaken extends AppCompatActivity {
         final Button compressButton = findViewById(R.id.compressButton);
         final Button TESTanalysisButton = findViewById(R.id.TESTanalyzeButton);
 
-        try{
+        /*try{
             copyFileUsingApacheCommonsIO(originalImage,copyImage);
         }catch (IOException e){
             e.printStackTrace();
-        }
+        }*/
 
+        //Tehdään skaalattu versio kuvasta aina kun luodaan activity
+        //tätä voidaan käyttää uploadaamiseen, koska sen koko on paljon pienempi
+        rescaleImage(copyImage);
         testPath = Environment.getExternalStorageDirectory()+"/test.jpg";
 
 
@@ -125,7 +128,8 @@ public class PicTaken extends AppCompatActivity {
                 TextView debugView =  (TextView)findViewById(R.id.debugData);
                 debugView.setText("Loading... This may take a little while...");
 
-                detectLabels2(truePath);
+                detectLabels2(testPath);
+                //detectLabels2(truePath);
                 //detectLabels2(pathValue);
             }
         });
@@ -141,7 +145,7 @@ public class PicTaken extends AppCompatActivity {
             }
         });
 
-        TESTanalysisButton.setOnClickListener(new View.OnClickListener() {
+        /*TESTanalysisButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Näytä loading animaatio ja kerro käyttäjälle että kuvaa analysoidaan
@@ -150,9 +154,9 @@ public class PicTaken extends AppCompatActivity {
 
                 TextView debugView =  (TextView)findViewById(R.id.debugData);
                 debugView.setText("Loading... This may take a little while...");
-                detectLabels(testPath);
+                detectLabels2(testPath);
             }
-        });
+        });*/
 
 
         Vision.Builder visionBuilder = new Vision.Builder(
