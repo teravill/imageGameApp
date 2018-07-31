@@ -10,11 +10,17 @@
     <!--
     Putting the ViewPager inside a HorizontalScrollView will disable swiping to the side between fragments
     without needing any addiotional code
-    -->
-<HorizontalScrollView
+
+    <HorizontalScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
+    VIEWPAGER HERE!!!
+
+</HorizontalScrollView>
+    -->
+
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
@@ -22,7 +28,7 @@
         android:id="@+id/fragContainer">
     </android.support.v4.view.ViewPager>
 
-</HorizontalScrollView>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
