@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +18,6 @@ public class bottomNavigation extends AppCompatActivity{
     private FragmentAdapter mFragmentAdapter;
     private ViewPager mViewPager;
 
-    TextView myTextView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -40,6 +40,7 @@ public class bottomNavigation extends AppCompatActivity{
             }
             return false;
         }
+
     };
 
 
@@ -57,11 +58,38 @@ public class bottomNavigation extends AppCompatActivity{
         //setup pager
         setupViewPager(mViewPager);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //how to set the animations moving between different fragments
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
+
+
+        //Change the active menu in the bottom after swiping, does not currently work
+        //position is known inside the app as the active page, same as fragment position
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+          @Override
+          public void onPageSelected(int position){
+              //when swiping between pages, select the right fragment/tab
+              //Log.e("pageChange", "Page is: " + position);
+              //navigation.setSelectedItemId(position);
+              switch (position){
+                  case 0:
+                      navigation.setSelectedItemId(R.id.navigation_home);
+                      break;
+                  case 1:
+                      navigation.setSelectedItemId(R.id.navigation_debug);
+                      break;
+                  case 2:
+                      navigation.setSelectedItemId(R.id.navigation_json);
+                      break;
+                  case 3:
+                      navigation.setSelectedItemId(R.id.navigation_about);
+                      break;
+              }
+          }
+        });
+
 
     }
 
@@ -94,19 +122,5 @@ public class bottomNavigation extends AppCompatActivity{
         mViewPager.setCurrentItem(fragmentNumber);
     }
 
-
-    public void resetScore(){
-        //Editoidaan sharedpreferenciin tallennettua counter integeriä, jolla pidetään kirjaa käyttäjän pisteistä.
-        // Tällä voidaan palauttaa käyttäjän pisteet takaisin nollaan
-        SharedPreferences mySharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int score = 0;
-
-        //Laitetaan muuttuja score editorin kautta counterin uudeksi arvoksi
-        SharedPreferences.Editor editor = mySharedPref.edit();
-        editor.putInt("counter", score);
-        editor.apply();
-
-        Toast.makeText(this, "The score has been reset", Toast.LENGTH_LONG).show();
-    }
 
 }
