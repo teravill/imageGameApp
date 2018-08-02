@@ -68,7 +68,6 @@ public class PicTaken extends AppCompatActivity {
 
     public static Context myContext;
 
-    public String truePath;
     public String testPath;
 
     @Override
@@ -79,7 +78,7 @@ public class PicTaken extends AppCompatActivity {
         //Hot to make screen orientation in portrait mode always, needs to be included in all activities where we want it to be locked to portrait mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        TextView debugView =  (TextView)findViewById(R.id.debugData);
+        TextView debugView = findViewById(R.id.debugData);
 
         //Otetaan vastaan ThirdActivitysta lähetetty String data, jossa on PATH otettuun kuvaan
         Intent intent = getIntent();
@@ -88,17 +87,12 @@ public class PicTaken extends AppCompatActivity {
         //Avataan imageviewiin kuva käyttämällä saatua PATH valueta
         Bitmap bitmap = BitmapFactory.decodeFile(pathValue);
 
-        ImageView myImage = (ImageView) findViewById(R.id.myImagePreview);
+        ImageView myImage = findViewById(R.id.myImagePreview);
         myImage.setImageBitmap(BitmapFactory.decodeFile(pathValue));
 
-        //assign truepath to to resized and compressed image
-        truePath = resizeAndCompressImageBeforeSend(getApplicationContext(), pathValue, "Cpic");
 
-
-        //Images opened as files from their parthValue
+        //Images opened as files from their pathValue
         final File originalImage = new File(pathValue);
-        final File copyImage = new File(Environment.getExternalStorageDirectory()+"/picCopy.jpg");
-
 
         final Button analysisbutton = findViewById(R.id.analyzeButton);
 
@@ -111,7 +105,7 @@ public class PicTaken extends AppCompatActivity {
         //Tehdään skaalattu versio kuvasta aina kun luodaan activity
         //tätä voidaan käyttää uploadaamiseen, koska sen koko on paljon pienempi
         //tallentaa piennennetyn kopion kuvasta nimellä test.jpg, korvaa edellisen test.jpg:n jos sellainen on olemassa
-        rescaleImage(copyImage);
+        rescaleImage(originalImage);
         testPath = Environment.getExternalStorageDirectory()+"/test.jpg";
 
 
@@ -131,8 +125,7 @@ public class PicTaken extends AppCompatActivity {
             }
         });
 
-
-
+        //Build the connector for the vision api
         Vision.Builder visionBuilder = new Vision.Builder(
                 new NetHttpTransport(),
                 new AndroidJsonFactory(),
@@ -243,7 +236,7 @@ public class PicTaken extends AppCompatActivity {
                                     resetMission();
                                 }
 
-                                TextView debugView =  (TextView)findViewById(R.id.debugData);
+                                TextView debugView = findViewById(R.id.debugData);
                                 debugView.setText(rtrMessage);
                             }
                         });
@@ -318,93 +311,11 @@ public class PicTaken extends AppCompatActivity {
          }
     }
 
-
-
-
-
-
-
-
-
-
-    public static String resizeAndCompressImageBeforeSend(Context context, String filePath, String fileName){
-        //play around with the first value to reduce filesize without compromising the number of labels found
-        final int MAX_IMAGE_SIZE = 500 * 1024; //max final file size in kilobytes
-
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
-
-        //calculate inSampleSize(First we are going to resize the image to 800x800in order to not have a big but very low quality image.
-        //resizing the image will already reduce the file size, but after resizing we will check the file size and start to compress image
-        options.inSampleSize = calculateInSampleSize(options, 800, 800);
-
-        //decode bitmap with inSamplesize set
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-        Bitmap bmpPic = BitmapFactory.decodeFile(filePath, options);
-
-        int compressQuality = 100;
-        int streamLength;
-        do{
-            ByteArrayOutputStream bmpStream = new ByteArrayOutputStream();
-            Log.d("compressBitmap", "Quality: " + compressQuality);
-            bmpPic.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream);
-            byte[] bmpPicByteArray = bmpStream.toByteArray();
-            streamLength = bmpPicByteArray.length;
-            compressQuality -= 5;
-            Log.d("compressBitmap", "Size: " + streamLength/1024+ " kb");
-        }while (streamLength >= MAX_IMAGE_SIZE);
-
-        try{
-            //save the resized and compressed file to disk cache
-            Log.d("compressBitmap", "cacheDir: " + context.getCacheDir());
-            FileOutputStream bmpFile = new FileOutputStream(context.getCacheDir() + fileName);
-            bmpPic.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpFile);
-            bmpFile.flush();
-            bmpFile.close();
-        }catch (Exception e){
-            Log.e("compressBitmap", "Error on saving file");
-        }
-        //return the path of resized and compressed file
-        return context.getCacheDir()+fileName;
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){
-        String debugTag = "MemoryInformation";
-
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        Log.d(debugTag, "image height: "+ height + " ---image width: " + width);
-        int inSampleSize = 1;
-
-        if(height > reqHeight || width > reqWidth){
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            //calculate the larges inSampleSize value that is a power of 2 and keeps both
-            //height and width larger than the requested height and width
-            while((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth){
-                inSampleSize *= 2;
-            }
-        }
-        Log.d(debugTag, "inSampleSize: " + inSampleSize);
-        return inSampleSize;
-    }
-
-
-
-
-
+    //nollaa tehtävän, käytetään tässä tapauksessa jos pyydetty label löytyy JSON responsesta
     public void resetMission(){
-        //Tämän funktion voi poistaa ja käyttää sen tekstiä suoraan kohdassa missä funktiota kutsutaan
-
         //Käyttää UtilityFunctions luokan funktiota resetScore
         myContext = getApplicationContext();
         UtilityFunctions.resetScore(myContext);
-
-
     }
 
 
