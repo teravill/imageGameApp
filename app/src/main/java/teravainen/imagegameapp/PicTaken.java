@@ -90,7 +90,6 @@ public class PicTaken extends AppCompatActivity {
         ImageView myImage = findViewById(R.id.myImagePreview);
         myImage.setImageBitmap(BitmapFactory.decodeFile(pathValue));
 
-
         //Images opened as files from their pathValue
         final File originalImage = new File(pathValue);
 

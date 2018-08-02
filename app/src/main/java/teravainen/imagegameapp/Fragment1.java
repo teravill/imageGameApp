@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ public class Fragment1 extends android.support.v4.app.Fragment {
     private TextView missionView;
     private Button rerollButton;
     private Button completeMissionButton;
+
+    public ListView myMissionList;
 
     public static AppDatabase appDatabase;
     private List<tehtava> itemList = new ArrayList<tehtava>();
@@ -74,6 +78,9 @@ public class Fragment1 extends android.support.v4.app.Fragment {
 
         //initialize database
         appDatabase = Room.databaseBuilder(getContext(),AppDatabase.class, "missionDB").allowMainThreadQueries().build();
+
+
+
 
         return view;
     }
@@ -227,4 +234,6 @@ public class Fragment1 extends android.support.v4.app.Fragment {
         }
 
     }
+
+
 }

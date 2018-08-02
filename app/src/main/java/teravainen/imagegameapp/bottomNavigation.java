@@ -62,8 +62,8 @@ public class bottomNavigation extends AppCompatActivity{
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //how to set the animations moving between different fragments
-        mViewPager.setPageTransformer(true, new DepthPageTransformer());
-
+        //this only works properly with swiping between fragments, as the animation plays really fast if you use the bottom nav buttons
+       // mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
         //Change the active menu in the bottom after swiping, does not currently work
         //position is known inside the app as the active page, same as fragment position
