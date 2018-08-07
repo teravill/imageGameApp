@@ -14,9 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.graphics.Bitmap;
@@ -71,6 +75,28 @@ public class PicTaken extends AppCompatActivity {
     public String testPath;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //do a switch statement for the item ids from toolbar_menu.xml
+        switch (item.getItemId()){
+            case R.id.mainScreen:
+              //do something for the settings menu
+            case R.id.toolbarHomeButton:
+                finish();
+                break;
+            default:
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pic_taken);
@@ -78,14 +104,13 @@ public class PicTaken extends AppCompatActivity {
         //Hot to make screen orientation in portrait mode always, needs to be included in all activities where we want it to be locked to portrait mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        TextView debugView = findViewById(R.id.debugData);
+        //initialize the toolbar
+        android.support.v7.widget.Toolbar myToolBar = findViewById(R.id.myToolBar);
+        setSupportActionBar(myToolBar);
 
         //Otetaan vastaan ThirdActivitysta lähetetty String data, jossa on PATH otettuun kuvaan
         Intent intent = getIntent();
         final String pathValue = intent.getStringExtra("pathToFile");
-
-        //Avataan imageviewiin kuva käyttämällä saatua PATH valueta
-        Bitmap bitmap = BitmapFactory.decodeFile(pathValue);
 
         ImageView myImage = findViewById(R.id.myImagePreview);
         myImage.setImageBitmap(BitmapFactory.decodeFile(pathValue));
@@ -94,12 +119,18 @@ public class PicTaken extends AppCompatActivity {
         final File originalImage = new File(pathValue);
 
         final Button analysisbutton = findViewById(R.id.analyzeButton);
+        final Button declineAnalysisButton = findViewById(R.id.declineButton);
 
         /*try{
             copyFileUsingApacheCommonsIO(originalImage,copyImage);
         }catch (IOException e){
             e.printStackTrace();
         }*/
+
+        //reset the analysis on the image in the shardpref when you create this activity
+        //this activity won't be created unless a picture is taken which replaces the old one
+        saveAnalysis("No analysis done on the image yet!");
+
 
         //Tehdään skaalattu versio kuvasta aina kun luodaan activity
         //tätä voidaan käyttää uploadaamiseen, koska sen koko on paljon pienempi
@@ -112,15 +143,28 @@ public class PicTaken extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Näytä loading animaatio ja kerro käyttäjälle että kuvaa analysoidaan
-                ProgressBar progBar = (ProgressBar)findViewById(R.id.myProgressBar);
+                ProgressBar progBar = findViewById(R.id.myProgressBar);
                 progBar.setVisibility(View.VISIBLE);
 
-                TextView debugView =  (TextView)findViewById(R.id.debugData);
+                //hide the buttons when the analysis begins
+                LinearLayout buttonHolder = findViewById(R.id.buttonHolderLayout);
+                buttonHolder.setVisibility(View.GONE);
+
+                TextView debugView =  findViewById(R.id.debugData);
                 debugView.setText("Loading... This may take a little while...");
 
                 detectLabels2(testPath);
                 //detectLabels2(truePath);
                 //detectLabels2(pathValue);
+            }
+        });
+
+        declineAnalysisButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent takePicture = new Intent(getApplicationContext(), TakePictureActivity.class);
+                startActivity(takePicture);
+                finish();
             }
         });
 
@@ -132,7 +176,7 @@ public class PicTaken extends AppCompatActivity {
 
         visionBuilder.setVisionRequestInitializer(
                 //API KEY
-                new VisionRequestInitializer("AIzaSyA_HI2asA_3KcYBSyFnRw_BC6vCHs867WU")
+                new VisionRequestInitializer("API KEY")
         );
 
         vision = visionBuilder.build();
@@ -217,7 +261,7 @@ public class PicTaken extends AppCompatActivity {
                             @Override
                             public void run() {
                                 //Hide the progressbar when done
-                                ProgressBar progBar = (ProgressBar)findViewById(R.id.myProgressBar);
+                                ProgressBar progBar = findViewById(R.id.myProgressBar);
                                 progBar.setVisibility(View.GONE);
                                 //Toast.makeText(getApplicationContext(), rtrMessage, Toast.LENGTH_LONG).show();
 
@@ -236,7 +280,9 @@ public class PicTaken extends AppCompatActivity {
                                 }
 
                                 TextView debugView = findViewById(R.id.debugData);
+                                debugView.setVisibility(View.VISIBLE);
                                 debugView.setText(rtrMessage);
+                                saveAnalysis(rtrMessage);
                             }
                         });
 
@@ -250,6 +296,14 @@ public class PicTaken extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void saveAnalysis(String analysisData){
+        SharedPreferences mySharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = mySharedPref.edit();
+
+        editor.putString("imageLabels", analysisData);
+        editor.apply();
     }
 
     //Checks if a label found in the taken picture matches one requested in the missions
@@ -449,11 +503,11 @@ public class PicTaken extends AppCompatActivity {
                         @Override
                         public void run() {
                             //Hide the progressbar when done
-                            ProgressBar progBar = (ProgressBar)findViewById(R.id.myProgressBar);
+                            ProgressBar progBar = findViewById(R.id.myProgressBar);
                             progBar.setVisibility(View.GONE);
 
                             Toast.makeText(getApplicationContext(), rtrMessage, Toast.LENGTH_LONG).show();
-                            TextView debugView =  (TextView)findViewById(R.id.debugData);
+                            TextView debugView =  findViewById(R.id.debugData);
                             debugView.setText(rtrMessage);
                         }
                     });
