@@ -34,7 +34,7 @@
     <string name="view_test_button">Debug</string>
 
     <string name="mission_with_points"></string>
-    <string name="title_activity_bottom_navigation">bottomNavigation</string>
+    <string name="title_activity_bottom_navigation">Image Game</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Debug</string>
     <string name="title_notifications">Database</string>

@@ -20,14 +20,30 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/aboutText"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/about_content"
                 android:textSize="18dp"
-                android:padding="3dp"
+                android:padding="5dp"
                 android:textColor="#FFFFFF"
-                android:background="#90000000"/>
+                android:background="@drawable/round_outline"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:id="@+id/lastPicturePreview"
+                android:rotation="90"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/labelData"
+                android:background="@drawable/round_outline"
+                android:textColor="#FFFFFF"
+                android:padding="5dp"/>
 
+            <!--Padding for the scrollview -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp" />
 
         </LinearLayout>
 

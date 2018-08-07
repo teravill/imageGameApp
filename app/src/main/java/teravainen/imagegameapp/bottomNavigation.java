@@ -1,17 +1,16 @@
 package teravainen.imagegameapp;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class bottomNavigation extends AppCompatActivity{
 
@@ -43,22 +42,52 @@ public class bottomNavigation extends AppCompatActivity{
 
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //do a switch statement for the item ids from toolbar_menu.xml
+        switch (item.getItemId()){
+            case R.id.mainScreen:
+                //add something here
+                //maybe settings menu?
+            case R.id.toolbarHomeButton:
+                setViewPager(0);
+                break;
+            default:
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
 
+
         //Hot to make screen orientation in portrait mode always, needs to be included in all activities where we want it to be locked to portrait mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //Create the toolbar
+        android.support.v7.widget.Toolbar myToolBar = findViewById(R.id.myToolBar);
+        setSupportActionBar(myToolBar);
+        //myToolBar.setLogo("@drawable/");
+
+
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.fragContainer);
+        mViewPager =  findViewById(R.id.fragContainer);
         //setup pager
         setupViewPager(mViewPager);
 
-        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        final BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //how to set the animations moving between different fragments

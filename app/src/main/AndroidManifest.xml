@@ -28,8 +28,9 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".TakePictureActivity" />
         <activity android:name=".PicTaken" />
+        <activity android:name=".bottomNavigation"/>
         <activity
-            android:name=".bottomNavigation"
+            android:name=".SplashActivity"
             android:label="@string/title_activity_bottom_navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
