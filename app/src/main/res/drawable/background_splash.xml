@@ -5,7 +5,7 @@
         android:drawable="@color/colorAccent"/>
 
     <item>
-        <bitmap android:src="@drawable/ic_home_black_24dp"
+        <bitmap android:src="@raw/vision_hunt2"
         android:gravity="center"/>
     </item>
 

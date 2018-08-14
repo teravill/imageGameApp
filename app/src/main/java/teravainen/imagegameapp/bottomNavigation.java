@@ -11,11 +11,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
+
+import java.lang.reflect.Field;
 
 public class bottomNavigation extends AppCompatActivity{
 
     private FragmentAdapter mFragmentAdapter;
     private ViewPager mViewPager;
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -25,16 +31,16 @@ public class bottomNavigation extends AppCompatActivity{
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    startMain();
+                    setViewPager(0);
                     return true;
                 case R.id.navigation_debug:
-                    startDebug();
+                    setViewPager(1);
                     return true;
                 case R.id.navigation_json:
-                    startJson();
+                    setViewPager(2);
                     return true;
                 case R.id.navigation_about:
-                    startAbout();
+                    setViewPager(3);
                     return true;
             }
             return false;
@@ -71,7 +77,6 @@ public class bottomNavigation extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
 
-
         //Hot to make screen orientation in portrait mode always, needs to be included in all activities where we want it to be locked to portrait mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -80,9 +85,7 @@ public class bottomNavigation extends AppCompatActivity{
         setSupportActionBar(myToolBar);
         //myToolBar.setLogo("@drawable/");
 
-
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
-
         mViewPager =  findViewById(R.id.fragContainer);
         //setup pager
         setupViewPager(mViewPager);
@@ -92,7 +95,9 @@ public class bottomNavigation extends AppCompatActivity{
 
         //how to set the animations moving between different fragments
         //this only works properly with swiping between fragments, as the animation plays really fast if you use the bottom nav buttons
-       // mViewPager.setPageTransformer(true, new DepthPageTransformer());
+      //  mViewPager.setPageTransformer(true, new DepthPageTransformer());
+       // mViewPager.setPageTransformer(true, new FadePageTransformer());
+
 
         //Change the active menu in the bottom after swiping, does not currently work
         //position is known inside the app as the active page, same as fragment position
@@ -119,23 +124,6 @@ public class bottomNavigation extends AppCompatActivity{
           }
         });
 
-
-    }
-
-    public void startMain(){
-        setViewPager(0);
-    }
-
-    public void startDebug(){
-        setViewPager(1);
-    }
-
-    public void startJson(){
-        setViewPager(2);
-    }
-
-    public void startAbout(){
-        setViewPager(3);
     }
 
     private void setupViewPager(ViewPager viewPager){
@@ -148,7 +136,8 @@ public class bottomNavigation extends AppCompatActivity{
     }
 
     public void setViewPager(int fragmentNumber){
-        mViewPager.setCurrentItem(fragmentNumber);
+        //remove the false if you want animations when not swiping
+        mViewPager.setCurrentItem(fragmentNumber,false);
     }
 
 
