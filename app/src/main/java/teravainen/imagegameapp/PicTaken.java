@@ -176,7 +176,7 @@ public class PicTaken extends AppCompatActivity {
 
         visionBuilder.setVisionRequestInitializer(
                 //API KEY
-                new VisionRequestInitializer("API KEY")
+                new VisionRequestInitializer("")
         );
 
         vision = visionBuilder.build();
